@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravAssist</title>
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background-color: var(--bg-color);
+            color: #333;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            border: none;
+            outline: none;
+            scroll-behavior: smooth;
+            font-family: "Poppins", sans-serif;
+        }
+        :root {
+            --bg-color: #fcfcfc;
+            --second-bg-color: #f8f8f8;
+            --text-color: black;
+            --main-color: rgb(0, 178, 254);
+        }
+        html {
+            font-size: 62.5%;
+            overflow-x: hidden;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 3rem 9%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 3rem;
+            color: orange;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        span {
+            color: var(--main-color);
+        }
+        .navbar a {
+            font-size: 1.8rem;
+            color: black;
+            margin-left: 4rem;
+            font-weight: 500;
+            transition: 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        .navbar a:hover, .navbar a:active {
+            color: var(--main-color);
+            border-bottom: 3px solid var(--main-color);
+        }
+        #menu-icon {
+            font-size: 3.6rem;
+            color: var(--main-color);
+            display: none;
+        }
+        section {
+            min-height: 100vh;
+            padding: 10rem 9% 10rem;
+        }
+        .home {
+            justify-content: center;
+            align-items: center;
+            gap: 8rem;
+            background: var(--bg-color);
+            font-size: 2rem;
+        }
+        .home h1 {
+            color: black;
+        }
+        span {
+            color: rgb(0, 178, 254);
+        }
+        #webchat {
+            height: 100%;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .webchat__container {
+            height: 100%;
+            width: 100%;
+        }
+        .webchat__message {
+            background-color: orange;
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+        .webchat__user-message {
+            background-color: rgb(0, 178, 254);
+            color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 5px 0;
+            align-self: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="ms_intern\index.html" class="logo">
+            Trav<span>Easy</span>
+        </a>
+        <!-- <i class='bx bx-menu' id="menu-icon"></i>
+        <nav class="navbar">
+            <a href="ms_intern\index.html">Home</a>
+            <a href="ms_intern\index.html">About</a>
+            <a href="ms_intern\index.html">Services</a>
+            <a href="ms_intern\index.html">Try Us</a>
+            <a href="#home" class="active">Itinerary Assistant</a>
+            <a href="ms_intern\index.html">Contact</a>
+        </nav> -->
+    </header>
+    <section class="home">
+        <h1>Welcome to <span style="color:orange;">Trav</span><span>Assist</span> - Itinerary Assistant</h1>
+        <div id="webchat"></div>
+        <p>Powered by Azure AI Bot Service</p>
+    </section>
+    <!-- Load the Bot Framework Web Chat library -->
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <script>
+        (async function () {
+            const directLineSecret = '_Fmeh8mU2x0.dQ8g_7f35eCc5_j8hznVDyard_wG07aXQ8pCcSxmw7U';
+
+            const { createDirectLine } = window.WebChat;
+
+            const directLine = createDirectLine({
+                secret: directLineSecret
+            });
+
+            window.WebChat.renderWebChat(
+                {
+                    directLine: directLine,
+                    userID: 'USER_ID',
+                    username: 'User',
+                    locale: 'en-US',
+                    styleOptions: {
+                        bubbleBackground: '#F8F8F8',
+                        bubbleTextColor: '#333',
+                        bubbleFromUserBackground: '#00B2FE',
+                        bubbleFromUserTextColor: '#FFF'
+                    }
+                },
+                document.getElementById('webchat')
+            );
+
+            // Send a welcome event to the bot
+            directLine.postActivity({
+                from: { id: 'USER_ID', name: 'User' },
+                name: 'webchat/join',
+                type: 'event',
+                value: 'Hello'
+            }).subscribe();
+
+        })();
+    </script>
+</body>
+</html>
